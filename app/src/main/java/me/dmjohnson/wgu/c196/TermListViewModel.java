@@ -20,9 +20,4 @@ public class TermListViewModel extends AndroidViewModel {
         repository = new DataRepository(application);
         terms = repository.getTerms();
     }
-
-    public void newTerm(){
-        // TODO go to term editor for new term instead
-        repository.addTestTerms();
-    }
 }

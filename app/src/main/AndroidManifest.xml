@@ -9,6 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".CourseViewActivity"
+            android:label="@string/title_activity_course_view"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CourseEditActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".TermEditActivity"
+            android:label="@string/title_activity_term_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AssessmentEditActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TermViewActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TermListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

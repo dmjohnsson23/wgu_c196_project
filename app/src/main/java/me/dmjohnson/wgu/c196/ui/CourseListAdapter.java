@@ -14,64 +14,67 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dmjohnson.wgu.c196.CourseViewActivity;
 import me.dmjohnson.wgu.c196.R;
 import me.dmjohnson.wgu.c196.TermViewActivity;
+import me.dmjohnson.wgu.c196.db.Course;
 import me.dmjohnson.wgu.c196.db.Term;
 
+import static me.dmjohnson.wgu.c196.Globals.COURSE_ID;
 import static me.dmjohnson.wgu.c196.Globals.TERM_ID;
 
-public class TermListAdapter extends RecyclerView.Adapter<TermListAdapter.ViewHolder> {
+public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolder> {
 
-    private final List<Term> terms;
+    private final List<Course> courses;
     private final Context context;
 
-    public TermListAdapter(List<Term> terms, Context context) {
-        if (terms == null) this.terms = new ArrayList<Term>();
-        else this.terms = terms;
+    public CourseListAdapter(List<Course> courses, Context context) {
+        if (courses == null) this.courses = new ArrayList<Course>();
+        else this.courses = courses;
         this.context = context;
     }
 
 
     @NonNull
     @Override
-    public TermListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CourseListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.term_list_item, parent, false);
+        View view = inflater.inflate(R.layout.course_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TermListAdapter.ViewHolder holder, int position) {
-        final Term term = terms.get(position);
-        holder.termName.setText(term.getTitle());
-        holder.termId = term.getId();
+    public void onBindViewHolder(@NonNull CourseListAdapter.ViewHolder holder, int position) {
+        final Course course = courses.get(position);
+        holder.courseName.setText(course.getTitle());
+        holder.courseId = course.getId();
     }
 
     @Override
     public int getItemCount() {
-        return terms.size();
+        return courses.size();
     }
 
     public void setData(List<Term> terms) {
-        this.terms.clear();
-        this.terms.addAll(terms);
+        this.courses.clear();
+        this.courses.addAll(courses);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView termName;
+        TextView courseName;
         Button editButton;
-        int termId;
+        int courseId;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            termName = itemView.findViewById(R.id.term_name);
+            courseName = itemView.findViewById(R.id.course_name);
             editButton = itemView.findViewById(R.id.edit_button);
 
             editButton.setOnClickListener((View view)-> onClickEditButton());
         }
 
         private void onClickEditButton() {
-            Intent intent = new Intent(context, TermViewActivity.class);
-            intent.putExtra(TERM_ID, termId);
+            Intent intent = new Intent(context, CourseViewActivity.class);
+            intent.putExtra(COURSE_ID, courseId);
             context.startActivity(intent);
         }
     }

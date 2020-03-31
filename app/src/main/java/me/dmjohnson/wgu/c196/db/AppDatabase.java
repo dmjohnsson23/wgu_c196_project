@@ -7,24 +7,22 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Database(
         entities = {Assessment.class, Course.class, Term.class},
-        version = 1
+        version = 4
 )
 @TypeConverters(DatatypeConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DataAccessObject getDao();
 
-    Executor executor = Executors.newSingleThreadExecutor();
-
     private static AppDatabase instance;
     public static AppDatabase getInstance(Context context){
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class, "terminal_plot.db").build();
+                    AppDatabase.class, "terminal_plot.db")
+                    .fallbackToDestructiveMigration()
+                    .build();
 
         }
         return instance;

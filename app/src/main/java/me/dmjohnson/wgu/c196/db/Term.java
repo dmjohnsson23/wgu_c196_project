@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 public class Term {
-    @PrimaryKey(autoGenerate = true) int id;
+    @PrimaryKey(autoGenerate = true) Integer id;
     String title;
     Date startDate;
     Date endDate;
@@ -28,11 +28,14 @@ public class Term {
         this.endDate = endDate;
     }
 
-    public int getId() {
+    @Ignore
+    public Term(){}
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
