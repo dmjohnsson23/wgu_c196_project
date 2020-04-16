@@ -1,22 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.dmjohnson.wgu.c196.TermViewActivity">
+    tools:context="me.dmjohnson.wgu.c196.AssessmentEditActivity">
     <item
         android:id="@+id/alert_start_date"
-        android:title="@string/alert_start_date"
+        android:title="@string/alert_goal_date"
         app:actionLayout="@layout/switch_item"
         app:showAsAction="never"
-        android:onClick="onAlertStartDateAction"/>
-    <item
-        android:id="@+id/alert_end_date"
-        android:title="@string/alert_end_date"
-        app:actionLayout="@layout/switch_item"
-        app:showAsAction="never"
-        android:onClick="onAlertEndDateAction"/>
+        android:onClick="onAlertGoalDateAction"/>
     <item
         android:icon="@drawable/ic_delete_red"
-        android:title="@string/delete_term"
+        android:title="@string/delete_assessment"
         app:showAsAction="never"
         android:onClick="onDeleteAction"/>
 </menu>

@@ -11,6 +11,12 @@ import me.dmjohnson.wgu.c196.db.DataRepository;
 
 public class CourseEditViewModel extends AndroidViewModel {
     private DataRepository repository;
+    private MutableLiveData<Course> course;
+
+    public CourseEditViewModel(@NonNull Application application) {
+        super(application);
+        repository = new DataRepository(application);
+    }
 
     public MutableLiveData<Course> getCourse(int id) {
         if (course == null){
@@ -27,13 +33,6 @@ public class CourseEditViewModel extends AndroidViewModel {
             course.postValue(newCourse);
         }
         return course;
-    }
-
-    private MutableLiveData<Course> course;
-
-    public CourseEditViewModel(@NonNull Application application) {
-        super(application);
-        repository = new DataRepository(application);
     }
 
     public void saveCourse(Course course) {

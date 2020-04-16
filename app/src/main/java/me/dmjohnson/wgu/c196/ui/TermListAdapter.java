@@ -18,7 +18,7 @@ import me.dmjohnson.wgu.c196.R;
 import me.dmjohnson.wgu.c196.TermViewActivity;
 import me.dmjohnson.wgu.c196.db.Term;
 
-import static me.dmjohnson.wgu.c196.Globals.TERM_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.TERM_ID;
 
 public class TermListAdapter extends RecyclerView.Adapter<TermListAdapter.ViewHolder> {
 

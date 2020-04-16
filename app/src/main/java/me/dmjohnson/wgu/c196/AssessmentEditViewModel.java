@@ -11,6 +11,12 @@ import me.dmjohnson.wgu.c196.db.DataRepository;
 
 public class AssessmentEditViewModel extends AndroidViewModel {
     private DataRepository repository;
+    private MutableLiveData<Assessment> assessment;
+
+    public AssessmentEditViewModel(@NonNull Application application) {
+        super(application);
+        repository = new DataRepository(application);
+    }
 
     public MutableLiveData<Assessment> getAssessment(int id) {
         if (assessment == null){
@@ -29,16 +35,12 @@ public class AssessmentEditViewModel extends AndroidViewModel {
         return assessment;
     }
 
-
-    private MutableLiveData<Assessment> assessment;
-
-    public AssessmentEditViewModel(@NonNull Application application) {
-        super(application);
-        repository = new DataRepository(application);
-    }
-
     public void saveAssessment(Assessment assessment) {
         this.assessment.postValue(assessment);
         repository.saveAssessment(assessment);
+    }
+
+    public void deleteAssessment(Assessment assessment) {
+        repository.deleteAssessment(assessment);
     }
 }

@@ -11,10 +11,16 @@ import java.util.Date;
         entity = Course.class,
         parentColumns = "id",
         childColumns = "courseId",
-        onDelete = ForeignKey.RESTRICT
+        onDelete = ForeignKey.CASCADE
     )
 )
 public class Assessment {
+    @PrimaryKey(autoGenerate = true) Integer id;
+    private String name;
+    private Type type;
+    private Date goalDate;
+    Integer courseId;
+
     public Integer getId() {
         return id;
     }
@@ -50,15 +56,8 @@ public class Assessment {
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
-
     public enum Type {
         OBJECTIVE,
         PERFORMANCE
     }
-
-    @PrimaryKey(autoGenerate = true) Integer id;
-    String name;
-    Type type;
-    Date goalDate;
-    Integer courseId;
 }

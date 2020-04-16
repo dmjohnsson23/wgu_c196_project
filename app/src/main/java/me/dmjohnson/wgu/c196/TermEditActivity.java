@@ -19,7 +19,7 @@ import java.util.Locale;
 
 import me.dmjohnson.wgu.c196.db.Term;
 
-import static me.dmjohnson.wgu.c196.Globals.TERM_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.TERM_ID;
 
 public class TermEditActivity extends AppCompatActivity {
     int termId;
@@ -43,6 +43,7 @@ public class TermEditActivity extends AppCompatActivity {
 
         model = ViewModelProviders.of(this).get(TermEditViewModel.class);
 
+        // Get Term
         MutableLiveData<Term> liveTerm;
         Bundle extras = getIntent().getExtras();
         if (extras != null){
@@ -55,19 +56,21 @@ public class TermEditActivity extends AppCompatActivity {
             liveTerm = model.getTerm();
         }
 
-        liveTerm.observe(this, term->{
-            TermEditActivity.this.term = term;
-            resetFields();
-        });
-
+        // Get Fields
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
         termNameField = findViewById(R.id.term_name_field);
         startDateField = findViewById(R.id.start_date_field);
         endDateField = findViewById((R.id.end_date_field));
         startDateDialog = new DatePickerDialog(this);
         endDateDialog = new DatePickerDialog((this));
 
+        // Get data from term
+        liveTerm.observe(this, term->{
+            TermEditActivity.this.term = term;
+            resetFields();
+        });
+
+        // Set listeners and the like
         startDateField.setOnClickListener(view -> startDateDialog.show());
         startDateField.setFocusable(false);
         endDateField.setOnClickListener(view -> endDateDialog.show());
@@ -83,11 +86,13 @@ public class TermEditActivity extends AppCompatActivity {
                 });
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            setData();
-            model.saveTerm(term);
-            finish();
-        });
+        fab.setOnClickListener(view -> onClickSave());
+    }
+
+    private void onClickSave() {
+        setData();
+        model.saveTerm(term);
+        finish();
     }
 
     private void resetFields() {

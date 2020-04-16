@@ -12,8 +12,8 @@ import me.dmjohnson.wgu.c196.db.DataRepository;
 import me.dmjohnson.wgu.c196.db.Term;
 
 public class TermListViewModel extends AndroidViewModel {
-    private DataRepository repository;
     LiveData<List<Term>> terms;
+    private DataRepository repository;
 
     public TermListViewModel(@NonNull Application application) {
         super(application);

@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 
 @Database(
         entities = {Assessment.class, Course.class, Term.class},
-        version = 4
+        version = 6
 )
 @TypeConverters(DatatypeConverter.class)
 public abstract class AppDatabase extends RoomDatabase {

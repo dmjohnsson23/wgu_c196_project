@@ -23,12 +23,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import me.dmjohnson.wgu.c196.db.Contact;
 import me.dmjohnson.wgu.c196.db.Course;
 
-import static me.dmjohnson.wgu.c196.Globals.COURSE_ID;
-import static me.dmjohnson.wgu.c196.Globals.TERM_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.COURSE_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.TERM_ID;
 
 public class CourseEditActivity extends AppCompatActivity {
+    // I would use a HashMap but it doesn't play well with the Spinner class....
+    private static final List<String> COURSE_STATUS_KEYS = Arrays.asList("Planned", "In Progress", "Dropped", "Completed");
+    private static final List<Course.Status> COURSE_STATUS_VALUES =
+            Arrays.asList(Course.Status.PLANNED, Course.Status.IN_PROGRESS, Course.Status.DROPPED, Course.Status.COMPLETED);
     int courseId;
     int termId;
     private Course course;
@@ -36,15 +41,13 @@ public class CourseEditActivity extends AppCompatActivity {
     private EditText courseNameField;
     private EditText startDateField;
     private EditText endDateField;
+    private EditText mentorNameField;
+    private EditText mentorPhoneField;
+    private EditText mentorEmailField;
     private DatePickerDialog startDateDialog;
     private DatePickerDialog endDateDialog;
     private SimpleDateFormat dateFormatter;
     private Spinner statusDropdown;
-
-    // I would use a HashMap but it doesn't play well with the Spinner class....
-    private static final List<String> COURSE_STATUS_KEYS = Arrays.asList("Planned", "In Progress", "Dropped", "Completed");
-    private static final List<Course.Status> COURSE_STATUS_VALUES =
-            Arrays.asList(Course.Status.COMPLETED, Course.Status.IN_PROGRESS, Course.Status.DROPPED, Course.Status.COMPLETED);
     private Date startDateValue;
     private Date endDateValue;
     private Course.Status statusValue;
@@ -58,6 +61,7 @@ public class CourseEditActivity extends AppCompatActivity {
 
         model = ViewModelProviders.of(this).get(CourseEditViewModel.class);
 
+        // Get the course
         MutableLiveData<Course> liveCourse;
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey(COURSE_ID)){
@@ -74,11 +78,7 @@ public class CourseEditActivity extends AppCompatActivity {
             throw new RuntimeException("Term ID or Course ID must be passed to CourseEditActivity");
         }
 
-        liveCourse.observe(this, course->{
-            this.course = course;
-            resetFields();
-        });
-
+        // Get fields etc...
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         courseNameField = findViewById(R.id.course_name_field);
@@ -87,7 +87,17 @@ public class CourseEditActivity extends AppCompatActivity {
         startDateDialog = new DatePickerDialog(this);
         endDateDialog = new DatePickerDialog((this));
         statusDropdown = findViewById(R.id.course_status_dropdown);
+        mentorNameField = findViewById(R.id.mentor_name_field);
+        mentorEmailField = findViewById(R.id.mentor_email_field);
+        mentorPhoneField = findViewById(R.id.mentor_phone_field);
 
+        // Get data from the course
+        liveCourse.observe(this, course->{
+            this.course = course;
+            resetFields();
+        });
+
+        // Setup fields and listeners
         ArrayAdapter<String> courseStatusAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
@@ -124,10 +134,14 @@ public class CourseEditActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            setData();
-            model.saveCourse(course);
-            finish();
+            onClickSave();
         });
+    }
+
+    private void onClickSave() {
+        setData();
+        model.saveCourse(course);
+        finish();
     }
 
     private void resetFields() {
@@ -135,7 +149,11 @@ public class CourseEditActivity extends AppCompatActivity {
             courseNameField.setText("");
             startDateField.setText("");
             endDateField.setText("");
+            mentorNameField.setText("");
+            mentorPhoneField.setText("");
+            mentorEmailField.setText("");
             statusDropdown.setSelection(0);
+            statusValue = COURSE_STATUS_VALUES.get(0);
         }
         else {
             courseNameField.setText(course.getTitle());
@@ -155,6 +173,17 @@ public class CourseEditActivity extends AppCompatActivity {
             }
             statusValue = course.getStatus();
             statusDropdown.setSelection(COURSE_STATUS_VALUES.indexOf(statusValue));
+        }
+        Contact mentor = course.getMentor();
+        if (mentor == null){
+            mentorNameField.setText("");
+            mentorEmailField.setText("");
+            mentorPhoneField.setText("");
+        }
+        else{
+            mentorNameField.setText(mentor.getName());
+            mentorPhoneField.setText(mentor.getPhone());
+            mentorEmailField.setText(mentor.getEmail());
         }
     }
 
@@ -185,6 +214,11 @@ public class CourseEditActivity extends AppCompatActivity {
         course.setStatus(statusValue);
         course.setStartDate(startDateValue);
         course.setEndDate(endDateValue);
+        Contact mentor = new Contact();
+        mentor.setName((mentorNameField.getText().toString()));
+        mentor.setEmail((mentorEmailField.getText().toString()));
+        mentor.setPhone((mentorPhoneField.getText().toString()));
+        course.setMentor(mentor);
     }
 
 }

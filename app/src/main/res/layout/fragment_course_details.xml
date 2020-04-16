@@ -7,9 +7,71 @@
     tools:context=".CourseDetailsFragment">
 
     <TextView
+        android:id="@+id/dates_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:drawableStart="@drawable/ic_date_range_black"
+        android:drawablePadding="@dimen/text_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/status_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:drawableStart="@drawable/ic_flag_black"
+        android:drawablePadding="@dimen/text_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dates_view" />
+
+    <TextView
+        android:id="@+id/mentor_name_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:drawableStart="@drawable/ic_person_black"
+        android:drawablePadding="@dimen/text_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_view" />
+
+    <TextView
+        android:id="@+id/mentor_email_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:autoLink="email"
+        android:drawableStart="@drawable/ic_contact_mail_black"
+        android:drawablePadding="@dimen/text_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mentor_name_view" />
+
+    <TextView
+        android:id="@+id/mentor_phone_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:autoLink="phone"
+        android:drawableStart="@drawable/ic_contact_phone_black_24dp"
+        android:drawablePadding="@dimen/text_margin"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mentor_email_view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/edit_button"

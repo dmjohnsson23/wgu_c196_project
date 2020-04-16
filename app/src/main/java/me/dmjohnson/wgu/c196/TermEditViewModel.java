@@ -11,6 +11,12 @@ import me.dmjohnson.wgu.c196.db.Term;
 
 public class TermEditViewModel extends AndroidViewModel {
     private DataRepository repository;
+    private MutableLiveData<Term> term;
+
+    public TermEditViewModel(@NonNull Application application) {
+        super(application);
+        repository = new DataRepository(application);
+    }
 
     public MutableLiveData<Term> getTerm(int id) {
         if (term == null){
@@ -25,13 +31,6 @@ public class TermEditViewModel extends AndroidViewModel {
             term.postValue(new Term());
         }
         return term;
-    }
-
-    private MutableLiveData<Term> term;
-
-    public TermEditViewModel(@NonNull Application application) {
-        super(application);
-        repository = new DataRepository(application);
     }
 
     public void saveTerm(Term term) {

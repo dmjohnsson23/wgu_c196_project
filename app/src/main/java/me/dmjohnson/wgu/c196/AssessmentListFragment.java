@@ -8,23 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.dmjohnson.wgu.c196.db.Assessment;
 import me.dmjohnson.wgu.c196.ui.AssessmentListAdapter;
 
-import static me.dmjohnson.wgu.c196.Globals.COURSE_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.COURSE_ID;
 
 
 public class AssessmentListFragment extends Fragment {
 
-    private List<Assessment> assessments;
+    private List<Assessment> assessments = new ArrayList<>();
     private Integer courseId;
+    private AssessmentListViewModel model;
+    private AssessmentListAdapter adapter;
 
 
     /**
@@ -43,14 +47,6 @@ public class AssessmentListFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            //columnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,11 +54,23 @@ public class AssessmentListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_assessment_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
-        // Set the adapter
+        model = ViewModelProviders.of(this).get(AssessmentListViewModel.class);
+
+        // Setup recyclerview
         Context context = view.getContext();
-        // TODO get assessments and init recyclerview
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new AssessmentListAdapter(assessments, getContext()));
+        model.getAssessments(courseId).observe(getViewLifecycleOwner(), newAssessments->{
+            assessments.clear();
+            assessments.addAll(newAssessments);
+
+            if (adapter== null){
+                adapter = new AssessmentListAdapter(assessments, context);
+                recyclerView.setAdapter(adapter);
+            }
+            else{
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         // Setup Add Button
         FloatingActionButton fab = view.findViewById(R.id.add_button);

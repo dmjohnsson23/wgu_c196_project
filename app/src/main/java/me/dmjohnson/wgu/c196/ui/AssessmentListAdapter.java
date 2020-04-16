@@ -3,16 +3,20 @@ package me.dmjohnson.wgu.c196.ui;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import me.dmjohnson.wgu.c196.AssessmentEditActivity;
 import me.dmjohnson.wgu.c196.R;
 import me.dmjohnson.wgu.c196.db.Assessment;
 
 import java.util.List;
+
+import static me.dmjohnson.wgu.c196.util.Globals.ASSESSMENT_ID;
 
 
 public class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAdapter.ViewHolder> {
@@ -36,10 +40,12 @@ public class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAd
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Assessment assessment = assessments.get(position);
         holder.assessment = assessment;
+        holder.assessmentName.setText(assessment.getName());
 
         holder.view.setOnClickListener(v -> {
-            // TODO go to assessment details
-            System.out.println("Click assessment "+assessment.getId());
+            Intent intent = new Intent(context, AssessmentEditActivity.class);
+            intent.putExtra(ASSESSMENT_ID, assessment.getId());
+            context.startActivity(intent);
         });
     }
 
@@ -51,20 +57,13 @@ public class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView assessmentName;
         public Assessment assessment;
 
         public ViewHolder(View view) {
             super(view);
             this.view = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            assessmentName =view.findViewById(R.id.assessment_name);
         }
     }
 }

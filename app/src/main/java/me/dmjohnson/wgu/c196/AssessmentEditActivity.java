@@ -1,7 +1,10 @@
 package me.dmjohnson.wgu.c196;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,11 +27,16 @@ import java.util.List;
 import java.util.Locale;
 
 import me.dmjohnson.wgu.c196.db.Assessment;
+import me.dmjohnson.wgu.c196.db.AssessmentAlert;
+import me.dmjohnson.wgu.c196.util.AlertCreator;
 
-import static me.dmjohnson.wgu.c196.Globals.ASSESSMENT_ID;
-import static me.dmjohnson.wgu.c196.Globals.COURSE_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.ASSESSMENT_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.COURSE_ID;
+import static me.dmjohnson.wgu.c196.util.Utils.getEventIntent;
 
 public class AssessmentEditActivity extends AppCompatActivity {
+    public static final List<String> ASSESSMENT_TYPE_KEYS = Arrays.asList("Objective", "Performance");
+    public static final List<Assessment.Type> ASSESSMENT_TYPE_VALUES = Arrays.asList(Assessment.Type.OBJECTIVE, Assessment.Type.PERFORMANCE);
     Integer assessmentId;
     Integer courseId;
     private Assessment assessment;
@@ -40,9 +48,7 @@ public class AssessmentEditActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormatter;
     private Date goalDateValue;
     private Assessment.Type assessmentTypeValue;
-
-    public static final List<String> ASSESSMENT_TYPE_KEYS = Arrays.asList("Objective", "Performance");
-    public static final List<Assessment.Type> ASSESSMENT_TYPE_VALUES = Arrays.asList(Assessment.Type.OBJECTIVE, Assessment.Type.PERFORMANCE);
+    private Boolean isNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +66,13 @@ public class AssessmentEditActivity extends AppCompatActivity {
             assessmentId = extras.getInt(ASSESSMENT_ID);
             liveAssessment = model.getAssessment(assessmentId);
             this.setTitle("Edit Assessment");
+            isNew=false;
         }
         else if (extras != null && extras.containsKey(COURSE_ID)){
             courseId = extras.getInt(COURSE_ID);
             this.setTitle("New Assessment");
             liveAssessment = model.getNewAssessment(courseId);
+            isNew=true;
         }
         else{
             throw new RuntimeException("Term ID or Course ID must be passed to CourseEditActivity");
@@ -94,11 +102,7 @@ public class AssessmentEditActivity extends AppCompatActivity {
 
         // Setup save button
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            setData();
-            model.saveAssessment(assessment);
-            finish();
-        });
+        fab.setOnClickListener(view -> onClickSaveButton());
 
         // Setup dropdown
         assessmentTypeDropdown.setAdapter(new ArrayAdapter<>(
@@ -116,6 +120,25 @@ public class AssessmentEditActivity extends AppCompatActivity {
                 // Don't select nothing, this is required
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean orig = super.onCreateOptionsMenu(menu);
+        if (!isNew){
+            // Only create the menu for existing items
+            getMenuInflater().inflate(R.menu.menu_assessment_edit, menu);
+            return true;
+        }
+        else{
+            return orig;
+        }
+    }
+
+    private void onClickSaveButton() {
+        setData();
+        model.saveAssessment(assessment);
+        finish();
     }
 
     private void resetFields() {
@@ -157,4 +180,13 @@ public class AssessmentEditActivity extends AppCompatActivity {
         assessment.setType(assessmentTypeValue);
     }
 
+    public void onAlertGoalDateAction(MenuItem item) {
+        AssessmentAlert alert = new AssessmentAlert(assessment);
+        AlertCreator.createAlert(this, alert);
+    }
+
+    public void onDeleteAction(MenuItem item) {
+        model.deleteAssessment(assessment);
+        finish();
+    }
 }

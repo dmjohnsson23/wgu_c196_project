@@ -17,13 +17,17 @@ public class TermViewViewModel extends AndroidViewModel {
     private LiveData<Term> term;
     private LiveData<List<Course>> courses;
 
+    public TermViewViewModel(@NonNull Application application) {
+        super(application);
+        repository = new DataRepository(application);
+    }
+
     public LiveData<Term> getTerm(int id) {
         if (term == null){
             term = repository.getTerm(id);
         }
         return term;
     }
-
 
     public LiveData<List<Course>> getCourses(int termId) {
         if (courses == null){
@@ -33,11 +37,7 @@ public class TermViewViewModel extends AndroidViewModel {
     }
 
 
-
-    public TermViewViewModel(@NonNull Application application) {
-        super(application);
-        repository = new DataRepository(application);
+    public void deleteTerm(Term term) {
+        repository.deleteTerm(term);
     }
-
-
 }

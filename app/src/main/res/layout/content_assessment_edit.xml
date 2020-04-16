@@ -17,10 +17,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/assessment_name"
-            app:layout_constraintEnd_toStartOf="@+id/term_name_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/assessment_name"/>
 
 
         <EditText
@@ -28,10 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textShortMessage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:inputType="textShortMessage" />
 
     </TableRow>
 
@@ -44,20 +38,14 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/assessment_goal_date"
-            app:layout_constraintEnd_toStartOf="@+id/start_date_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:text="@string/assessment_goal_date"/>
 
         <EditText
             android:id="@+id/goal_date_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/term_name_field" />
+            android:inputType="date"/>
 
     </TableRow>
 
@@ -70,10 +58,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/type"
-            app:layout_constraintEnd_toStartOf="@+id/end_date_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            android:text="@string/type" />
 
         <Spinner
             android:id="@+id/assessment_type_dropdown"
@@ -83,5 +68,7 @@
             android:spinnerMode="dropdown" />
 
     </TableRow>
+
+
 
 </TableLayout>

@@ -21,12 +21,15 @@ import me.dmjohnson.wgu.c196.ui.main.PlaceholderFragment;
 public class CoursePagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_course_info, R.string.tab_course_mentor, R.string.tab_course_assessments, R.string.tab_course_notes};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_course_info, R.string.tab_course_assessments, R.string.tab_course_notes};
     private final Context context;
     private final Integer courseId;
 
     public CoursePagerAdapter(Context context, FragmentManager fm, Integer courseId) {
         super(fm);
+        if (courseId== null){
+            throw new RuntimeException("No course ID given to CoursePagerAdapter");
+        }
         this.courseId = courseId;
         this.context = context;
     }
@@ -40,14 +43,11 @@ public class CoursePagerAdapter extends FragmentPagerAdapter {
                 // Course Info Tab
                 return CourseDetailsFragment.newInstance(courseId);
             case 1:
-                // Course Mentor Tab
-                return PlaceholderFragment.newInstance(2);
-            case 2:
                 // AssessmentsTab
                 return AssessmentListFragment.newInstance(courseId);
-            case 3:
+            case 2:
                 // Notes tab
-                return CourseNotesFragment.newInstance();
+                return CourseNotesFragment.newInstance(courseId);
         }
         throw new RuntimeException("Undefined tab");
     }
@@ -60,6 +60,6 @@ public class CoursePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 }

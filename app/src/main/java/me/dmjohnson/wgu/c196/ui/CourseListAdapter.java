@@ -16,12 +16,10 @@ import java.util.List;
 
 import me.dmjohnson.wgu.c196.CourseViewActivity;
 import me.dmjohnson.wgu.c196.R;
-import me.dmjohnson.wgu.c196.TermViewActivity;
 import me.dmjohnson.wgu.c196.db.Course;
 import me.dmjohnson.wgu.c196.db.Term;
 
-import static me.dmjohnson.wgu.c196.Globals.COURSE_ID;
-import static me.dmjohnson.wgu.c196.Globals.TERM_ID;
+import static me.dmjohnson.wgu.c196.util.Globals.COURSE_ID;
 
 public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolder> {
 

@@ -9,35 +9,21 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import me.dmjohnson.wgu.c196.db.Assessment;
-import me.dmjohnson.wgu.c196.db.Course;
 import me.dmjohnson.wgu.c196.db.DataRepository;
 
-public class CourseViewViewModel extends AndroidViewModel {
-    private DataRepository repository;
-    private LiveData<Course> course;
+public class AssessmentListViewModel extends AndroidViewModel {
     private LiveData<List<Assessment>> assessments;
+    private DataRepository repository;
 
-    public CourseViewViewModel(@NonNull Application application) {
+    public AssessmentListViewModel(@NonNull Application application) {
         super(application);
         repository = new DataRepository(application);
     }
 
-    public LiveData<Course> getCourse(int id) {
-        if (course == null){
-            course = repository.getCourse(id);
-        }
-        return course;
-    }
-
-    public LiveData<List<Assessment>> getAssessments(int courseId) {
+    public LiveData<List<Assessment>> getAssessments(Integer courseId){
         if (assessments == null){
             assessments = repository.getAssessments(courseId);
         }
         return assessments;
-    }
-
-
-    public void deleteCourse(Course course) {
-        repository.deleteCourse(course);
     }
 }

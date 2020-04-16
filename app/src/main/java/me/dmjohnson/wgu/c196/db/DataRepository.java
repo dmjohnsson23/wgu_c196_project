@@ -137,4 +137,16 @@ public class DataRepository {
             executor.execute(()-> db.getDao().updateAssessment(assessment));
         }
     }
+
+    public void deleteTerm(Term term) {
+        executor.execute(()->db.getDao().deleteTerm(term));
+    }
+
+    public void deleteCourse(Course course) {
+        executor.execute(()->db.getDao().deleteCourse(course));
+    }
+
+    public void deleteAssessment(Assessment assessment){
+        executor.execute(()->db.getDao().deleteAssessment(assessment));
+    }
 }
