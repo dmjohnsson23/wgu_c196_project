@@ -3,7 +3,6 @@ package me.dmjohnson.wgu.c196.db;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 import java.util.Date;
 
